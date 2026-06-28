@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Шаурмания</title>
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='/favicon-96x96.png') }}"
+      sizes="96x96"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="{{ url_for('static', filename='/favicon.svg') }}"
+    />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='/favicon.ico') }}"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{{ url_for('static', filename='/apple-touch-icon.png') }}"
+    />
+    <link
+      rel="manifest"
+      href="{{ url_for('static', filename='/site.webmanifest') }}"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="alert">Демо-проект · Формы и кнопки не работают</div>
+      <nav class="nav">
+        <div class="nav__container container">
+          <button
+            onclick="topFunction()"
+            id="topBtn"
+          >
+            <svg
+              class="arrow-top-3"
+              viewBox="0 0 5 9"
+            >
+              <path
+                d="M0.419,9.000 L0.003,8.606 L4.164,4.500 L0.003,0.394 L0.419,0.000 L4.997,4.500 L0.419,9.000 Z"
+              />
+            </svg>
+          </button>
+          <img
+            class="nav__logo"
+            src="{{ url_for('static', filename='img/header/logo.svg') }}"
+            alt="Шаурмания"
+          />
+          <a
+            class="nav__btn"
+            href="tel:+79141234567"
+          >
+            Заказать
+          </a>
+        </div>
+      </nav>
+    </header>
+    <main class="main">
+      <section class="slider">
+        <div class="slider__container container">
+          <div class="slider__carousel">
+            <button class="slider__prev">
+              <img
+                src="{{ url_for('static', filename='img/slider/prev.svg') }}"
+                alt="Назад"
+              />
+            </button>
+            <img
+              class="slider__img"
+              src="{{ url_for('static', filename='img/slider/1.png') }}"
+              alt=""
+            />
+            <button class="slider__next">
+              <img
+                src="{{ url_for('static', filename='img/slider/next.svg') }}"
+                alt="Вперед"
+              />
+            </button>
+          </div>
+          <p class="slider__title">Готовим за 3 минуты</p>
+          <div class="slider__bubbles">
+            <div class="slider__bubble"></div>
+            <div class="slider__bubble"></div>
+            <div class="slider__bubble active"></div>
+            <div class="slider__bubble"></div>
+          </div>
+        </div>
+      </section>
+      <section class="features">
+        <div class="features__container container">
+          <h3 class="features__title">Почему выбирают нас</h3>
+          <ul class="features__list">
+            <li class="feature">
+              <img
+                class="feature__img"
+                src="{{ url_for('static', filename='img/features/🥩.png') }}"
+                alt=""
+              />
+              <p class="feature__title">Только свежее мясо</p>
+              <p class="feature__subtitle">Маринуем сами каждый день</p>
+            </li>
+            <li class="feature">
+              <img
+                class="feature__img"
+                src="{{ url_for('static', filename='img/features/🌶️.png') }}"
+                alt=""
+              />
+              <p class="feature__title">Фирменные соусы</p>
+              <p class="feature__subtitle">Собственные рецепты</p>
+            </li>
+            <li class="feature">
+              <img
+                class="feature__img"
+                src="{{ url_for('static', filename='img/features/♨️.png') }}"
+                alt=""
+              />
+              <p class="feature__title">Готовим при вас</p>
+              <p class="feature__subtitle">Открытая кухня, всё на виду</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section class="menu">
+        <div class="menu__container container">
+          <h3 class="menu__title">Наше меню</h3>
+          <ul class="menu__categories">
+            <button
+              class="menu__category active"
+              onclick="selectCategory(id)"
+              id="all"
+            >
+              Все
+            </button>
+            <button
+              class="menu__category"
+              onclick="selectCategory(id)"
+              id="shaverma"
+            >
+              Шаурма
+            </button>
+            <button
+              class="menu__category"
+              onclick="selectCategory(id)"
+              id="kesadilya"
+            >
+              Кесадилья
+            </button>
+            <button
+              class="menu__category"
+              onclick="selectCategory(id)"
+              id="snacks"
+            >
+              Снеки
+            </button>
+            <button
+              class="menu__category"
+              onclick="selectCategory(id)"
+              id="drinks    "
+            >
+              Напитки
+            </button>
+          </ul>
+          <ul class="menu__goodies">
+            <div class="menu__card">
+              <img
+                src="{{ url_for('static', filename='img/menu/Шаурма деревенская.png') }}"
+                alt=""
+                class="menu__card-img"
+              />
+              <div class="menu__card-desc">
+                <p class="menu__card-title">Шаурма деревенская</p>
+                <p class="menu__card-price">329 ₽</p>
+              </div>
+            </div>
+            <div class="menu__card">
+              <img
+                src="{{ url_for('static', filename='img/menu/Шаурма с курицей и овощами .png') }}"
+                alt=""
+                class="menu__card-img"
+              />
+              <div class="menu__card-desc">
+                <p class="menu__card-title">Шаурма с курицей и овощами</p>
+                <p class="menu__card-price">325 ₽</p>
+              </div>
+            </div>
+            <div class="menu__card">
+              <img
+                src="{{ url_for('static', filename='img/menu/Шаурма овощная маленькая.png') }}"
+                alt=""
+                class="menu__card-img"
+              />
+              <div class="menu__card-desc">
+                <p class="menu__card-title">Шаурма овощная маленькая</p>
+                <p class="menu__card-price">239 ₽</p>
+              </div>
+            </div>
+            <div class="menu__card">
+              <img
+                src="{{ url_for('static', filename='img/menu/Шаурма по-корейски маленькая.png') }}"
+                alt=""
+                class="menu__card-img"
+              />
+              <div class="menu__card-desc">
+                <p class="menu__card-title">Шаурма по-корейски маленькая</p>
+                <p class="menu__card-price">329 ₽</p>
+              </div>
+            </div>
+            <div class="menu__card">
+              <img
+                src="{{ url_for('static', filename='img/menu/Картофель фри.png') }}"
+                alt=""
+                class="menu__card-img"
+              />
+              <div class="menu__card-desc">
+                <p class="menu__card-title">Картофель фри</p>
+                <p class="menu__card-price">330 ₽</p>
+              </div>
+            </div>
+            <div class="menu__card">
+              <img
+                src="{{ url_for('static', filename='img/menu/Буртуч.png') }}"
+                alt=""
+                class="menu__card-img"
+              />
+              <div class="menu__card-desc">
+                <p class="menu__card-title">Буртуч</p>
+                <p class="menu__card-price">399 ₽</p>
+              </div>
+            </div>
+            <div class="menu__card">
+              <img
+                src="{{ url_for('static', filename='img/menu/Наггетсы.png') }}"
+                alt=""
+                class="menu__card-img"
+              />
+              <div class="menu__card-desc">
+                <p class="menu__card-title">Наггетсы</p>
+                <p class="menu__card-price">315 ₽</p>
+              </div>
+            </div>
+            <div class="menu__card">
+              <img
+                src="{{ url_for('static', filename='img/menu/Сырные палочки.png') }}"
+                alt=""
+                class="menu__card-img"
+              />
+              <div class="menu__card-desc">
+                <p class="menu__card-title">Сырные палочки</p>
+                <p class="menu__card-price">315 ₽</p>
+              </div>
+            </div>
+            <div class="menu__card">
+              <img
+                src="{{ url_for('static', filename='img/menu/Кесадилья со свининой.png') }}"
+                alt=""
+                class="menu__card-img"
+              />
+              <div class="menu__card-desc">
+                <p class="menu__card-title">Кесадилья со свининой</p>
+                <p class="menu__card-price">399 ₽</p>
+              </div>
+            </div>
+          </ul>
+        </div>
+      </section>
+      <section class="about-us">
+        <div class="about-us__container container">
+          <img
+            src="{{ url_for('static', filename='img/about-us/pic.png') }}"
+            alt=""
+            class="about-us__img"
+          />
+          <div class="about-us__desc">
+            <h3 class="about-us__title">Мы готовим с душой</h3>
+            <p class="about-us__subtitle">
+              Шаурмания — сеть из 13 точек по всей Чите. Работаем с 2022 года. Каждый день готовим
+              свежую шаурму из натуральных ингредиентов. Наши мастера прошли специальное обучение,
+              чтобы каждая шаурма получалась идеальной.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section class="form">
+        <div class="form__container container">
+          <div class="form__info">
+            <h3 class="form__info-title">О компании</h3>
+            <ul class="form__info-features">
+              <li class="form__info-feature">ИП Труфанов Н.Д.</li>
+              <li class="form__info-feature">Работаем с 2022 года</li>
+              <li class="form__info-feature">13 точек в Чите</li>
+              <li class="form__info-feature">Цены от 239 ₽</li>
+            </ul>
+          </div>
+          <div class="form-block">
+            <h3 class="form-title">Получайте акции первыми</h3>
+            <form
+              class="form-group"
+              action=""
+            >
+              <input
+                class="form-entry"
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Ваше имя"
+                required
+              />
+              <input
+                class="form-entry"
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Email"
+                required
+              />
+              <input
+                class="form-button"
+                type="button"
+                value="Подписаться"
+                onclick="subscribe()"
+              />
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <div class="footer__top">
+        <div class="footer__top-container container">
+          <img
+            src="{{ url_for('static', filename='img/footer/logo.svg') }}"
+            alt=""
+            class="footer__top-logo"
+          />
+          <p class="footer__top-copyright">© 2026 Шаурмания, г. Чита</p>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <div class="footer__bottom-container container">
+          <h5 class="footer__bottom-title">Наши точки</h5>
+          <ul class="footer__bottom-addresses">
+            <li class="footer__bottom-address">ул. Ленина 83</li>
+            <li class="footer__bottom-address">Бабушкина 30</li>
+            <li class="footer__bottom-address">Иркутская 16</li>
+            <li class="footer__bottom-address">Амурская 98</li>
+            <li class="footer__bottom-address">5-й мкр 29/2</li>
+            <li class="footer__bottom-address">Столярова 83</li>
+            <li class="footer__bottom-address">Бабушкина 98</li>
+            <li class="footer__bottom-address">Курнатовского 25а/3</li>
+            <li class="footer__bottom-address">Виля Липатова 26</li>
+            <li class="footer__bottom-address">ТЦ Столица (Генерала Белика 1)</li>
+            <li class="footer__bottom-address">Ленина 149</li>
+            <li class="footer__bottom-address">мкр. Девичья Сопка 1а</li>
+            <li class="footer__bottom-address">пр. Советов 7б</li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </body>
+</html>
