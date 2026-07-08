@@ -1,4 +1,8 @@
 venv/
-.env
 __pycache__/
-.vscode
+*.pyc
+database/*.db
+.env
+instance/
+node_modules/
+.vscode/
