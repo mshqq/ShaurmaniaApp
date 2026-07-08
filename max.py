@@ -1,11 +1,17 @@
 import asyncio
 import aiohttp
+import os
+from dotenv import load_dotenv
 
-BOT_TOKEN = "f9LHodD0cOLOzXJtHXJTx0EAwgCgG6P2_kF8lbsYq3MsuEwcGaHccCZU164uvJWQclLdJ--f2QravQaffPJS"
+load_dotenv()
+
+BOT_TOKEN = os.getenv("MAX_TOKEN")
 BASE_URL = "https://platform-api2.max.ru"
 
 
 async def send_newsletter(user_id: int, name: str):
+    if not BOT_TOKEN:
+        raise RuntimeError("MAX_BOT_TOKEN is not set")
     headers = {
         "Authorization": BOT_TOKEN,  # без Bearer, просто токен
         "Content-Type": "application/json",
