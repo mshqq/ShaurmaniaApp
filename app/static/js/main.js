@@ -21,93 +21,34 @@ document.querySelectorAll('.menu__category').forEach(button => {
 
 const menuParent = document.querySelector('.menu__goodies');
 
-let goodies = [
-  {
-    name: 'Шаурма деревенская',
-    alt: 'Шаурма деревенская',
-    img: STATIC_URL + 'img/menu/Шаурма деревенская.png',
-    price: 329,
-    category: 'shaurma'
-  },
-  {
-    name: 'Шаурма с курицей и овощами',
-    alt: 'Шаурма с курицей и овощами',
-    img: STATIC_URL + 'img/menu/Шаурма с курицей и овощами .png',
-    price: 325,
-    category: 'shaurma'
-  },
-  {
-    name: 'Шаурма овощная маленькая',
-    alt: 'Шаурма овощная маленькая',
-    img: STATIC_URL + 'img/menu/Шаурма овощная маленькая.png',
-    price: 239,
-    category: 'shaurma'
-  },
-  {
-    name: 'Шаурма по-корейски маленькая',
-    alt: 'Шаурма по-корейски маленькая',
-    img: STATIC_URL + 'img/menu/Шаурма по-корейски маленькая.png',
-    price: 329,
-    category: 'shaurma'
-  },
-  {
-    name: 'Буртуч',
-    alt: 'Буртуч',
-    img: STATIC_URL + 'img/menu/Буртуч.png',
-    price: 399,
-    category: 'shaurma'
-  },
-  {
-    name: 'Кесадилья со свининой',
-    alt: 'Кесадилья со свининой',
-    img: STATIC_URL + 'img/menu/Кесадилья со свининой.png',
-    price: 399,
-    category: 'kesadilya'
-  },
-  {
-    name: 'Картофель фри',
-    alt: 'Картофель фри',
-    img: STATIC_URL + 'img/menu/Картофель фри.png',
-    price: 330,
-    category: 'snacks'
-  },
-  {
-    name: 'Наггетсы',
-    alt: 'Наггетсы',
-    img: STATIC_URL + 'img/menu/Наггетсы.png',
-    price: 315,
-    category: 'snacks'
-  },
-  {
-    name: 'Сырные палочки',
-    alt: 'Сырные палочки',
-    img: STATIC_URL + 'img/menu/Сырные палочки.png',
-    price: 315,
-    category: 'snacks'
-  },
-  {
-    name: 'Кола',
-    alt: 'Кола',
-    img: STATIC_URL + 'img/menu/Шаурма деревенская.png',
-    price: 1488,
-    category: 'drinks'
-  }
-];
+fetch('/api/products')
+  .then(response => {
+    return response.json();
+  })
+  .then(goodies => {
+    let menu = '';
+    goodies.forEach(product => {
+      path = STATIC_URL + product.image_path;
+      menu += `
+            <div class="menu__card" data-category="${product.category}">
+              <img src="${path}" alt="${product.name}" class="menu__card-img" />
+              <div class="menu__card-info">
+                <p class="menu__card-title">${product.name}</p>
+                  <p class="menu__card-description">${product.description}</p>
+                  <p class="menu__card-composition">${product.composition}</p>
+                <div class="menu__card-controls">
+                  <p class="menu__card-price">${product.price} ₽</p>
+                  <button class="menu__card-button">Добавить в корзину</button>
+                </div>
+              </div>
+            </div>`;
+    });
+    menuParent.innerHTML = menu;
+  });
 
-let menu = '';
-
-goodies.forEach(product => {
-  menu += `
-  <div class="menu__card" data-category="${product.category}">
-    <img src="${product.img}" alt="${product.alt}" class="menu__card-img" />
-      <div class="menu__card-desc">
-        <p class="menu__card-title">${product.name}</p>
-        <p class="menu__card-price">${product.price} ₽</p>
-      </div>
-  </div>`;
-});
-
-menuParent.innerHTML = menu;
+setInterval(() => {
+  window.location.reload();
+}, 15000);
 
 let current = 0;
 let slides = document.querySelectorAll('.slide');

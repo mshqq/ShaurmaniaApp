@@ -333,9 +333,13 @@ header {
 }
 
 .menu__card-img {
+  background-color: var(--color-white);
   border-radius: 14px 14px 0 0;
+  max-width: 304px;
+  max-height: 233px;
   width: 100%;
   height: auto;
+  object-fit: scale-down;
 }
 
 .menu__goodies {
@@ -345,8 +349,9 @@ header {
 }
 
 .menu__card {
-  display: flex;
-  flex-direction: column;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
   transition: transform 0.2s ease-in-out;
   cursor: pointer;
 }
@@ -355,18 +360,64 @@ header {
   transform: scale(1.01) translateY(-5px);
 }
 
-.menu__card-desc {
+.menu__card-info {
+  display: grid;
+  grid-template-rows: auto;
+  gap: 10px;
   background-color: var(--card-bg);
   border-radius: 0 0 14px 14px;
   width: 100%;
   padding: 12px 17px 17px 17px;
 }
 
+.menu__card-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu__card-button {
+  color: var(--color-black);
+  background-color: var(--accent-secondary);
+
+  padding: 7px 9px 7px 9px;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--color-black);
+
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+
+  transition:
+    transform 0.2s ease-in-out,
+    color 0.2s ease-in-out;
+}
+
+.menu__card-button:hover {
+  transform: scale(1.05) translateY(-1px);
+  background-color: #d4a800;
+}
+
 .menu__card-title {
   font-size: 15px;
   font-weight: 700;
   color: var(--color-white);
-  padding-bottom: 12px;
+}
+
+.menu__card-description,
+.menu__card-composition {
+  color: var(--color-white);
+  font-size: 13px;
+  max-height: 45px;
+  overflow: hidden;
+  transition: max-height 0.2s ease-in-out;
+}
+
+.menu__card:hover .menu__card-composition,
+.menu__card:hover .menu__card-description {
+  max-height: 60px;
 }
 
 .menu__card-price {
