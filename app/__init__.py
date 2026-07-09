@@ -14,6 +14,7 @@ def create_app():
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///shaurmania.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.json.sort_keys = False
 
     db.init_app(app)
     csrf.init_app(app)
