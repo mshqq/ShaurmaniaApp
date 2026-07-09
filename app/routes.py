@@ -18,16 +18,30 @@ def index(name=None):
 
 
 @csrf.exempt
-@app.route("/api/locations", methods=["POST"])
+@app.route("/api/locations", methods=["GET", "POST"])
 def create_location():
+    if request.method == "GET":
+        locations = Location.query.all()
+        location_list = [{"id": item.id, "address": item.address} for item in locations]
+        return jsonify(location_list), 200
+
     data = request.get_json()
 
-    address = data.get("address")
-    new_location = Location(address=address)  # pyrefly: ignore
-    db.session.add(new_location)
-    db.session.commit()
+    if not data:
+        return jsonify({"error": "Запрос не содержит JSON!"}), 400
 
-    return jsonify({"message": "Успешно создано"}), 200
+    address = data.get("address")
+    if not address:
+        return jsonify({"error": "Не передан адрес новой точки!"}), 400
+
+    try:
+        new_location = Location(address=address)  # pyrefly: ignore
+        db.session.add(new_location)
+        db.session.commit()
+        return jsonify({"message": "Успешно создано"}), 201
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify({"error": "Уже существует точка с таким адресом!"}), 400
 
 
 @csrf.exempt
