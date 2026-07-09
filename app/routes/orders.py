@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from app.extensions import db, csrf
+from app.utils import to_local_time
 from app.models import Order, OrderItems, Location, Product
 
 orders_bp = Blueprint("orders", __name__)
@@ -126,22 +127,42 @@ def make_order():
 @orders_bp.route("/api/orders", methods=["GET"])
 def get_orders():
     orders = Order.query.all()
-    orders_list = [
-        {
-            "id": order.id,
-            "public_token": order.public_token,
+    orders_list = []
+    for order in orders:
+        composition = OrderItems.query.filter(OrderItems.order_id == order.id).all()
+        composition_list = []
+
+        for item in composition:
+            product = Product.query.filter(Product.id == item.product_id).first()
+            composition_list.append(
+                {
+                    "name": product.name,
+                    "quantity": item.quantity,
+                    "subtotal": product.price * item.quantity,
+                }
+            )
+
+        info = {
+            "order_id": order.id,
             "customer_name": order.customer_name,
             "customer_phone": order.customer_phone,
-            "delivery_type": order.delivery_type,
-            "location_id": order.location_id,
-            "delivery_address": order.delivery_address,
             "status": order.status,
             "total_price": order.total_price,
-            "created_at": order.created_at,
+            "created_at": to_local_time(order.created_at),
         }
-        for order in orders
-    ]
 
-    order_items = OrderItems.query.all()
-    order_items_list = [{"id": oi} for oi in order_items]
-    return jsonify(orders_list, order_items_list), 200
+        if order.delivery_type == "Самовывоз":
+            info["delivery_type"] = "Самовывоз"
+            info["location"] = (
+                Location.query.filter(Location.id == order.location_id).first().address
+            )
+
+        if order.delivery_type == "Доставка":
+            info["delivery_type"] = "Доставка"
+            info["delivery_address"] = order.delivery_address
+
+        info["composition"] = composition_list
+
+        orders_list.append(info)
+
+    return jsonify(orders_list), 200
