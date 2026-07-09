@@ -1,6 +1,11 @@
 from flask import Flask
 from dotenv import load_dotenv
 from app.extensions import db, csrf
+from app.routes.locations import locations_bp
+from app.routes.main import main_bp
+from app.routes.orders import orders_bp
+from app.routes.products import products_bp
+from app.routes.subscribers import subscribers_bp
 import os
 
 
@@ -25,5 +30,11 @@ def create_app():
         db.create_all()
 
         from app import routes  # noqa
+
+    app.register_blueprint(locations_bp)
+    app.register_blueprint(main_bp)
+    app.register_blueprint(orders_bp)
+    app.register_blueprint(products_bp)
+    app.register_blueprint(subscribers_bp)
 
     return app
