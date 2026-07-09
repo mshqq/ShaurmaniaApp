@@ -7,7 +7,7 @@ class Location(db.Model):
     __tablename__ = "locations"
 
     id = db.Column(db.Integer, unique=True, primary_key=True)
-    address = db.Column(db.String(255), nullable=False)
+    address = db.Column(db.String(255), nullable=False, unique=True)
 
     def __repr__(self):
         return f"<Locations {self.id}>"
