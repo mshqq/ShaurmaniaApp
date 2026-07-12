@@ -1,3 +1,4 @@
+from flask import render_template
 from flask import Blueprint, jsonify, request
 from app.extensions import db, csrf
 from app.utils import to_local_time
@@ -7,7 +8,7 @@ orders_bp = Blueprint("orders", __name__)
 
 
 @csrf.exempt
-@orders_bp.route("/order/<string:token>", methods=["GET"])
+@orders_bp.route("/api/order/<string:token>", methods=["GET"])
 def get_order_info(token):
     order = Order.query.filter(Order.public_token == token).first_or_404()
 
@@ -24,6 +25,54 @@ def get_order_info(token):
 
 
 @csrf.exempt
+@orders_bp.route("/order/<string:token>", methods=["GET"])
+def render_order(token):
+    order = Order.query.filter(Order.public_token == token).first()
+    if order is None:
+        return render_template("404.html")
+
+    location = Location.query.filter(Location.id == order.location_id).first()
+
+    if order.delivery_type == "Доставка":
+        dType = "Курьером"
+    else:
+        dType = order.delivery_type
+
+    if location:
+        address = location.address
+    else:
+        address = order.delivery_address
+
+    def get_product_name(product_id):
+        return Product.query.filter(Product.id == product_id).first().name
+
+    def get_product_price(product_id):
+        return Product.query.filter(Product.id == product_id).first().price
+
+    order_items = [
+        {
+            "product_id": item.product_id,
+            "name": get_product_name(item.product_id),
+            "price": get_product_price(item.product_id),
+            "quantity": item.quantity,
+        }
+        for item in OrderItems.query.filter(OrderItems.order_id == order.id)
+    ]
+
+    return render_template(
+        "order.html",
+        oId=order.id,
+        cName=order.customer_name,
+        cPhone=order.customer_phone,
+        dType=dType,
+        address=address,
+        orderItems=order_items,
+        total=order.total_price,
+        status=order.status,
+    )
+
+
+@csrf.exempt
 @orders_bp.route("/api/order", methods=["POST"])
 def make_order():
     data = request.get_json()
@@ -31,8 +80,9 @@ def make_order():
     if not data:
         return jsonify({"error": "Некорректный JSON"}), 400
 
-    name = data.get("name")
-    phone = data.get("phone")
+    print(data)
+    name = data.get("customer_name")
+    phone = data.get("customer_phone")
     delivery_type = data.get("delivery_type")
     location_id = data.get("location_id")
     delivery_address = data.get("delivery_address")
@@ -67,7 +117,7 @@ def make_order():
     products_map = {}
 
     for item in cart:
-        product_id = item.get("product_id")
+        product_id = item.get("id")
         quantity = item.get("quantity")
 
         if not product_id:
@@ -99,7 +149,7 @@ def make_order():
         db.session.flush()
 
         for item in cart:
-            product_id = item.get("product_id")
+            product_id = item.get("id")
             quantity = item.get("quantity")
 
             product = products_map[product_id]
@@ -115,7 +165,12 @@ def make_order():
         new_order.total_price = total
         db.session.commit()
 
-        return jsonify({"message": "Заказ был создан", "order_id": new_order.id}), 201
+        return jsonify(
+            {
+                "message": "Заказ был создан",
+                "redirect_url": f"/order/{new_order.public_token}",
+            }
+        ), 201
 
     except Exception as e:
         print(e)
