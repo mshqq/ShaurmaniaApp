@@ -6,3 +6,4 @@ database/*.db
 instance/
 node_modules/
 .vscode/
+.obsidian/
