@@ -1,0 +1,243 @@
+body {
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+.order-container {
+  background-color: #0e0e0e;
+  padding-block: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  color: var(--color-white);
+}
+
+.order-card {
+  margin: auto;
+  padding-inline: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  border-radius: 8px;
+
+  max-width: 500px;
+  border: 1px solid #242424;
+  background-color: #191818;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.order-header {
+  border-bottom: 1px solid var(--border-default);
+  padding-block: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+
+.order-title {
+  font-weight: 900;
+  font-size: 20px;
+  text-align: center;
+}
+
+.text-success {
+  font-weight: 700;
+  font-size: 12px;
+  text-align: center;
+  color: var(--color-green);
+}
+
+.fun-phrase {
+  background-color: #1d1d1d;
+  text-align: center;
+  padding: 10px 15px;
+  color: var(--accent-secondary);
+  font-weight: 800;
+  font-style: italic;
+  border-radius: 4px;
+}
+
+.eta-box {
+  border: 1px dotted;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+#etaLabel {
+  font-weight: 400;
+}
+
+#etaTime {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+
+.info-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: var(--form-placeholder);
+  font-size: 12px;
+}
+
+.info-row span:last-child {
+  color: var(--color-white);
+  font-weight: 700;
+}
+
+.item {
+  background-color: rgb(42, 42, 42);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border: 1px solid var(--arrow-bg);
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+#orderItemList {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  border-bottom: 1px solid var(--border-default);
+  padding-bottom: 20px;
+}
+
+.item-name {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.item-price {
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.item-subtotal {
+  font-weight: 700;
+}
+
+#breakdownSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  border-bottom: 1px solid var(--border-default);
+  padding-bottom: 20px;
+}
+
+#breakdownSection .info-row:last-child span:last-child {
+  color: var(--color-green);
+}
+
+#totalPriceRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  font-weight: 700;
+}
+
+#totalPriceRow span:last-child {
+  color: var(--accent-secondary);
+  font-weight: 900;
+}
+
+.nav__btn::before {
+  content: '🏠';
+}
+
+.nav__btn::after {
+  content: none;
+}
+
+.status-track {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  position: relative;
+}
+
+.status-track-fill {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 37%;
+  background-color: var(--color-green);
+  height: 4px;
+  z-index: 1;
+  transition: width 0.5s ease-in-out;
+}
+
+.status-track::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 4px;
+  z-index: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.status-step {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
+  z-index: 5;
+  text-transform: uppercase;
+}
+
+.status-icon {
+  border-radius: 100%;
+  font-size: 16px;
+  border: 1px solid;
+  padding: 5px;
+  z-index: 10;
+  background-color: #191818;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: color 0.4s ease-in-out;
+}
+
+.status-label {
+  font-size: 8px;
+  transition: color 0.4s ease-in-out;
+}
+
+.status-step.active .status-icon {
+  background-color: var(--color-green);
+  border: 1px solid var(--color-green);
+}
+
+.status-step.active .status-label {
+  color: var(--color-green);
+}
+
+.status-step.done .status-icon {
+  border: 1px solid var(--color-green);
+}

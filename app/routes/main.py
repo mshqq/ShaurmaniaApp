@@ -9,3 +9,8 @@ main_bp = Blueprint("main", __name__)
 def index(name=None):
     form = SubscriptionForm()
     return render_template("index.html", form=form)
+
+
+@main_bp.route("/debug", methods=["GET"])
+def debug():
+    return render_template("base.html")

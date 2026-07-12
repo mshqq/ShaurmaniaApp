@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>{% block title %}{% endblock %}</title>
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/base.css') }}"
+    />
+    {% block styles %}{% endblock styles %}
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='/favicon-96x96.png') }}"
+      sizes="96x96"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="{{ url_for('static', filename='/favicon.svg') }}"
+    />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='/favicon.ico') }}"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{{ url_for('static', filename='/apple-touch-icon.png') }}"
+    />
+    <link
+      rel="manifest"
+      href="{{ url_for('static', filename='/site.webmanifest') }}"
+    />
+  </head>
+  <body>
+    {% block modal %}{% endblock modal%}
+    <header>
+      <p class="alert">Демо-проект · Формы и кнопки не работают</p>
+      <nav class="nav">
+        <div class="nav__container container">
+          <a href="/">
+            <img
+              class="nav__logo"
+              src="{{ url_for('static', filename='img/header/logo.svg') }}"
+              alt="Шаурмания"
+            />
+          </a>
+
+          {% block header_button %}{% endblock header_button %}
+        </div>
+      </nav>
+    </header>
+    <button id="topBtn">
+      <svg viewBox="0 0 5 9">
+        <path
+          d="M0.419,9.000 L0.003,8.606 L4.164,4.500 L0.003,0.394 L0.419,0.000 L4.997,4.500 L0.419,9.000 Z"
+        />
+      </svg>
+    </button>
+    {% block main %}{% endblock main %}
+    <footer class="footer">
+      <div class="footer__top">
+        <div class="footer__top-container container">
+          <img
+            src="{{ url_for('static', filename='img/footer/logo.svg') }}"
+            alt="Шаурмания"
+            class="footer__top-logo"
+          />
+          <p class="footer__top-copyright">© 2026 Шаурмания, г. Чита</p>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <div class="footer__bottom-container container">
+          <h5 class="footer__bottom-title">Наши точки</h5>
+          <ul class="footer__bottom-addresses">
+            <li class="footer__bottom-address">ул. Ленина 83</li>
+            <li class="footer__bottom-address">Бабушкина 30</li>
+            <li class="footer__bottom-address">Иркутская 16</li>
+            <li class="footer__bottom-address">Амурская 98</li>
+            <li class="footer__bottom-address">5-й мкр 29/2</li>
+            <li class="footer__bottom-address">Столярова 83</li>
+            <li class="footer__bottom-address">Бабушкина 98</li>
+            <li class="footer__bottom-address">Курнатовского 25а/3</li>
+            <li class="footer__bottom-address">Виля Липатова 26</li>
+            <li class="footer__bottom-address">ТЦ Столица (Генерала Белика 1)</li>
+            <li class="footer__bottom-address">Ленина 149</li>
+            <li class="footer__bottom-address">мкр. Девичья Сопка 1а</li>
+            <li class="footer__bottom-address">пр. Советов 7б</li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+    <script>
+      const STATIC_URL = "{{ url_for('static', filename='') }}";
+    </script>
+    <script src="{{ url_for('static', filename='js/uiEffects.js') }}"></script>
+    {% block scripts %}{% endblock scripts %}
+  </body>
+</html>

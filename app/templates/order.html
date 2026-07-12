@@ -1,0 +1,101 @@
+{% extends "base.html" %} {% block styles %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/order.css') }}"
+/>
+{% endblock styles %} {% block title %}Шаурмания - Заказ №{{ oId }}{% endblock title %} {% block
+header_button %}
+<a
+  class="nav__btn"
+  href="/"
+>
+  На главную
+</a>
+{% endblock header_button %} {% block main %}
+<main class="order-container">
+  <div class="order-card">
+    <div class="order-header">
+      <h1 class="order-title">
+        Заказ
+        <span style="color: var(--accent-secondary)">
+          № {{ oId }}
+          <span id="orderIdDisplay"></span>
+        </span>
+      </h1>
+      <p class="text-success">✓ Успешно оформлен и передан на кухню</p>
+    </div>
+    <div class="fun-phrase">
+      <span>🌯</span>
+      <span id="funText">Ваша шаурма уже крутится на вертеле!</span>
+      <span>🔥</span>
+    </div>
+    <div class="status-track">
+      <div
+        class="status-track-fill"
+        id="statusFill"
+      ></div>
+      <div class="status-step done">
+        <div class="status-icon">📝</div>
+        <div class="status-label">Принят</div>
+      </div>
+      <div class="status-step active">
+        <div class="status-icon">👨‍🍳</div>
+        <div class="status-label">Готовится</div>
+      </div>
+      <div class="status-step">
+        <div class="status-icon">🚗</div>
+        <div class="status-label">В пути</div>
+      </div>
+      <div class="status-step">
+        <div class="status-icon">✅</div>
+        <div class="status-label">Выполнен</div>
+      </div>
+    </div>
+    <div class="eta-box">
+      <div id="etaLabel">Ориентировочное время готовности</div>
+      <div id="etaTime">02:30</div>
+    </div>
+    <h5>Детали заказа</h5>
+    <div class="details">
+      <div class="info-row">
+        <span>Имя получателя:</span>
+        <span>{{ cName }}</span>
+      </div>
+      <div class="info-row">
+        <span>Телефон:</span>
+        <span>{{ cPhone }}</span>
+      </div>
+      <div class="info-row">
+        <span>Доставка:</span>
+        <span>{{ dType }}: {{ address }}</span>
+      </div>
+    </div>
+    <h5>Состав</h5>
+    <div id="orderItemList">
+      {% for item in orderItems %}
+      <div class="item">
+        <div class="item-info">
+          <p class="item-name">{{ item.name }}</p>
+          <p class="item-price">{{ item.price }}₽ × {{ item.quantity }} шт.</p>
+        </div>
+        <p class="item-subtotal">{{ item.quantity * item.price }}₽</p>
+      </div>
+      {% endfor %}
+    </div>
+    <div id="breakdownSection">
+      <div class="info-row">
+        <span>Стоимость товаров:</span>
+        <span>{{ total }} ₽</span>
+      </div>
+      <div class="info-row">
+        <span>Доставка:</span>
+        <span>Бесплатно</span>
+      </div>
+    </div>
+    <div id="totalPriceRow">
+      <span>Итого:</span>
+      <span>{{ total }} ₽</span>
+    </div>
+  </div>
+</main>
+{% endblock main %}
