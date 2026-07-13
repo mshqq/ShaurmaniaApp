@@ -184,7 +184,7 @@ main {
   position: absolute;
   top: 50%;
   left: 0;
-  width: 37%;
+  width: 10%;
   background-color: var(--color-green);
   height: 4px;
   z-index: 1;

@@ -34,11 +34,11 @@ header_button %}
         class="status-track-fill"
         id="statusFill"
       ></div>
-      <div class="status-step done">
+      <div class="status-step active">
         <div class="status-icon">📝</div>
         <div class="status-label">Принят</div>
       </div>
-      <div class="status-step active">
+      <div class="status-step">
         <div class="status-icon">👨‍🍳</div>
         <div class="status-label">Готовится</div>
       </div>
@@ -98,4 +98,6 @@ header_button %}
     </div>
   </div>
 </main>
-{% endblock main %}
+{% endblock main %} {% block scripts %}
+<script src="{{ url_for('static', filename='js/progressBar.js') }}"></script>
+{% endblock scripts %}

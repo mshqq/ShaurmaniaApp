@@ -26,7 +26,7 @@ class Order(db.Model):
     location_id = db.Column(db.Integer, db.ForeignKey("locations.id"), nullable=True)
     delivery_address = db.Column(db.String(255), nullable=True)
 
-    status = db.Column(db.String(50), default="Новый")
+    status = db.Column(db.String(50), default="accepted")
     total_price = db.Column(db.Integer, default=0)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 

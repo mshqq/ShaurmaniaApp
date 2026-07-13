@@ -8,6 +8,15 @@ orders_bp = Blueprint("orders", __name__)
 
 
 @csrf.exempt
+@orders_bp.route("/api/order/status/<string:token>", methods=["GET"])
+def get_order_status(token):
+    order = Order.query.filter(Order.public_token == token).first()
+    status = order.status
+
+    return jsonify({"status": status}), 200
+
+
+@csrf.exempt
 @orders_bp.route("/api/order/<string:token>", methods=["GET"])
 def get_order_info(token):
     order = Order.query.filter(Order.public_token == token).first_or_404()
