@@ -19,5 +19,5 @@ def sendEmail(app_password, name, email):
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
         server.login(sender, app_password)
         server.send_message(msg)
-
+test
     print("Письмо отправлено!")
