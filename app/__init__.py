@@ -37,4 +37,9 @@ def create_app():
     app.register_blueprint(products_bp)
     app.register_blueprint(subscribers_bp)
 
+    from app.routes.orders import scheduler
+
+    if not scheduler.running:
+        scheduler.start()
+
     return app

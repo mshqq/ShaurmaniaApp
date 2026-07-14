@@ -1,10 +1,29 @@
-from flask import render_template
-from flask import Blueprint, jsonify, request
+from datetime import datetime, timedelta
+from flask import Blueprint, jsonify, request, current_app, render_template
 from app.extensions import db, csrf
 from app.utils import to_local_time
 from app.models import Order, OrderItems, Location, Product
+from apscheduler.schedulers.background import BackgroundScheduler
 
 orders_bp = Blueprint("orders", __name__)
+scheduler = BackgroundScheduler()
+
+STATUS_DELAYS = [("cooking", 10), ("pending", 15), ("done", 20)]
+
+
+def setStatus(app, id, status):
+    with app.app_context():
+        order = Order.query.filter(Order.id == id).first()
+        if order is None:
+            print(f"Заказ с ID={id} не найден, статус {status} не установлен")
+            return
+        try:
+            print(f"Старый статус: {order.status} - Новый статус: {status}")
+            order.status = status
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            print(e)
 
 
 @csrf.exempt
@@ -173,6 +192,23 @@ def make_order():
 
         new_order.total_price = total
         db.session.commit()
+
+        try:
+            start_time = datetime.now()
+            app = current_app._get_current_object()
+            for status, delay_seconds in STATUS_DELAYS:
+                scheduler.add_job(
+                    setStatus,
+                    trigger="date",
+                    run_date=start_time + timedelta(seconds=delay_seconds),
+                    args=[app, new_order.id, status],
+                    id=f"order-{new_order.id}-{status}",
+                    replace_existing=True,
+                )
+        except Exception:
+            current_app.logger.exception(
+                "Не удалось запланировать статусы заказа %s", new_order.id
+            )
 
         return jsonify(
             {
