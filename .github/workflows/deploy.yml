@@ -20,4 +20,4 @@ jobs:
             docker build -t shaurmania .
             docker stop shaurmania-app || true
             docker rm shaurmania-app || true
-            docker run -d --name shaurmania-app -p 5000:5000 -v $(pwd)/instance:/app/instance shaurmania
+            docker run -d --name shaurmania-app -p 5000:5000 --env-file .env -v $(pwd)/instance:/app/instance shaurmania
