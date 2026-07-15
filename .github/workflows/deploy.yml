@@ -1,0 +1,23 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/deploy/shaurmaniaapp
+            git pull origin main
+            docker build -t shaurmania .
+            docker stop shaurmania-app || true
+            docker rm shaurmania-app || true
+            docker run -d --name shaurmania-app -p 5000:5000 -v $(pwd)/instance:/app/instance shaurmania
