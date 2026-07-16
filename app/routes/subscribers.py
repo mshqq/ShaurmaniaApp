@@ -16,11 +16,11 @@ EMAIL_REGEX = compile(r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
 def unsubscribe(token):
     sub = Subscriber.query.filter(Subscriber.unsubscribe_token == token).first()
 
-    if sub.is_active is False:
-        return jsonify({"error": "Вы уже отписались от рассылки!"}), 400
-
     if not sub:
         return jsonify({"error": "Токен не найден или устарел!"}), 404
+
+    if sub.is_active is False:
+        return jsonify({"error": "Вы уже отписались от рассылки!"}), 400
 
     try:
         sub.is_active = False
