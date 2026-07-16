@@ -6,17 +6,17 @@ from app.routes.main import main_bp
 from app.routes.orders import orders_bp
 from app.routes.products import products_bp
 from app.routes.subscribers import subscribers_bp
-import os
+from os import getenv
 
 
 def get_password():
-    return os.getenv("app_password")
+    return getenv("app_password")
 
 
 def create_app():
     app = Flask(__name__)
     load_dotenv()
-    app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+    app.config["SECRET_KEY"] = getenv("SECRET_KEY")
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///shaurmania.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.json.sort_keys = False
