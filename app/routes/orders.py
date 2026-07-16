@@ -30,6 +30,8 @@ def setStatus(app, id, status):
 @orders_bp.route("/api/order/status/<string:token>", methods=["GET"])
 def get_order_status(token):
     order = Order.query.filter(Order.public_token == token).first()
+    if not order:
+        return jsonify({"error": "Не найден заказ"}), 404
     status = order.status
 
     return jsonify({"status": status}), 200
