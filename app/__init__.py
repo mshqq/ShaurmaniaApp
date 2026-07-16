@@ -1,6 +1,6 @@
 from flask import Flask
 from dotenv import load_dotenv
-from app.extensions import db, csrf
+from app.extensions import db, csrf, login_manager
 from app.routes.locations import locations_bp
 from app.routes.main import main_bp
 from app.routes.orders import orders_bp
@@ -23,6 +23,13 @@ def create_app():
 
     db.init_app(app)
     csrf.init_app(app)
+    login_manager.init_app(app)
+
+    from app.models import User
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
 
     with app.app_context():
         from app import models  # noqa
