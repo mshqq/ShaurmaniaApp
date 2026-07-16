@@ -1,3 +1,4 @@
+from flask_login import login_required
 from flask import Blueprint, jsonify, request
 from app.models import Subscriber
 from app.extensions import db, csrf
@@ -32,8 +33,8 @@ def unsubscribe(token):
         return jsonify({"error": "Произошла ошибка при отписке!"}), 500
 
 
-@csrf.exempt
 @subscribers_bp.route("/admin/subscribers")
+@login_required
 def view_subscribers():
     subs = Subscriber.query.filter(Subscriber.is_active == True).all()  # noqa
     sub_list = [
