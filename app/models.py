@@ -1,6 +1,7 @@
 from app.extensions import db
 from datetime import datetime
 from uuid import uuid4
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class Location(db.Model):
@@ -106,3 +107,9 @@ class User(db.Model):
 
     def __repr__(self):
         return f"<{self.id}:{self.username}>"
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
