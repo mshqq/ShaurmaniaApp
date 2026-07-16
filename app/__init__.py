@@ -7,6 +7,7 @@ from app.routes.orders import orders_bp
 from app.routes.products import products_bp
 from app.routes.subscribers import subscribers_bp
 from os import getenv
+from app.routes.auth import auth_bp
 
 
 def get_password():
@@ -43,6 +44,7 @@ def create_app():
     app.register_blueprint(orders_bp)
     app.register_blueprint(products_bp)
     app.register_blueprint(subscribers_bp)
+    app.register_blueprint(auth_bp)
 
     from app.routes.orders import scheduler
 
