@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from flask import Blueprint, jsonify, request, current_app, render_template
+from flask_login import login_required
 from app.extensions import db, csrf
 from app.utils import to_local_time
 from app.models import Order, OrderItems, Location, Product
@@ -227,6 +228,7 @@ def make_order():
 
 @csrf.exempt
 @orders_bp.route("/api/orders", methods=["GET"])
+@login_required
 def get_orders():
     orders = Order.query.all()
     orders_list = []

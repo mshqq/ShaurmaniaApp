@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template
+from flask_login import login_required
 from app.forms import SubscriptionForm
 
 
@@ -12,5 +13,6 @@ def index(name=None):
 
 
 @main_bp.route("/debug", methods=["GET"])
+@login_required
 def debug():
     return render_template("base.html")

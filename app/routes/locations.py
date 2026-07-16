@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from flask_login import current_user
 from app.extensions import db, csrf
 from app.models import Location
 from sqlalchemy.exc import IntegrityError
@@ -13,6 +14,9 @@ def create_location():
         locations = Location.query.all()
         location_list = [{"id": item.id, "address": item.address} for item in locations]
         return jsonify(location_list), 200
+
+    if not current_user.is_authenticated:
+        return jsonify({"error": "Требуется авторизация"}), 401
 
     data = request.get_json()
 
