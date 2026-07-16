@@ -1,3 +1,4 @@
+from flask_login import login_required
 from flask import Blueprint, jsonify, request
 from app.models import Subscriber
 from app.extensions import db, csrf
@@ -16,11 +17,11 @@ EMAIL_REGEX = compile(r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
 def unsubscribe(token):
     sub = Subscriber.query.filter(Subscriber.unsubscribe_token == token).first()
 
-    if sub.is_active is False:
-        return jsonify({"error": "Вы уже отписались от рассылки!"}), 400
-
     if not sub:
         return jsonify({"error": "Токен не найден или устарел!"}), 404
+
+    if sub.is_active is False:
+        return jsonify({"error": "Вы уже отписались от рассылки!"}), 400
 
     try:
         sub.is_active = False
@@ -32,8 +33,8 @@ def unsubscribe(token):
         return jsonify({"error": "Произошла ошибка при отписке!"}), 500
 
 
-@csrf.exempt
 @subscribers_bp.route("/admin/subscribers")
+@login_required
 def view_subscribers():
     subs = Subscriber.query.filter(Subscriber.is_active == True).all()  # noqa
     sub_list = [

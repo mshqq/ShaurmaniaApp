@@ -1,28 +1,36 @@
 from flask import Flask
 from dotenv import load_dotenv
-from app.extensions import db, csrf
+from app.extensions import db, csrf, login_manager
 from app.routes.locations import locations_bp
 from app.routes.main import main_bp
 from app.routes.orders import orders_bp
 from app.routes.products import products_bp
 from app.routes.subscribers import subscribers_bp
-import os
+from os import getenv
+from app.routes.auth import auth_bp
 
 
 def get_password():
-    return os.getenv("app_password")
+    return getenv("app_password")
 
 
 def create_app():
     app = Flask(__name__)
     load_dotenv()
-    app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+    app.config["SECRET_KEY"] = getenv("SECRET_KEY")
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///shaurmania.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.json.sort_keys = False
 
     db.init_app(app)
     csrf.init_app(app)
+    login_manager.init_app(app)
+
+    from app.models import User
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
 
     with app.app_context():
         from app import models  # noqa
@@ -36,6 +44,7 @@ def create_app():
     app.register_blueprint(orders_bp)
     app.register_blueprint(products_bp)
     app.register_blueprint(subscribers_bp)
+    app.register_blueprint(auth_bp)
 
     from app.routes.orders import scheduler
 
