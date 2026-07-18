@@ -100,7 +100,6 @@ docker run -p 5000:5000 --env-file .env shaurmania
 ShaurmaniaApp/
 ├── app.py                       # Точка запуска (вызывает create_app())
 ├── mail.py                      # Отправка писем через Gmail SMTP (отдельный скрипт)
-├── max.py                       # Уведомления через бота MAX-мессенджера
 ├── requirements.txt             # Зависимости проекта
 ├── Dockerfile                   # Конфигурация Docker-контейнера
 ├── .env                         # Переменные окружения (не коммитится в Git)

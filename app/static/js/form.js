@@ -10,10 +10,13 @@ function initForm() {
     const nameValue = nameInput.value.trim();
     const emailValue = emailInput.value.trim();
 
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
     fetch('/api/subscribe', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken
       },
       body: JSON.stringify({ name: nameValue, email: emailValue })
     })

@@ -1,5 +1,5 @@
 from flask_login import login_required
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app
 from app.models import Subscriber
 from app.extensions import db, csrf
 from re import compile
@@ -12,7 +12,6 @@ subscribers_bp = Blueprint("subscribers", __name__)
 EMAIL_REGEX = compile(r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
 
 
-@csrf.exempt
 @subscribers_bp.route("/unsubscribe/<string:token>")
 def unsubscribe(token):
     sub = Subscriber.query.filter(Subscriber.unsubscribe_token == token).first()
@@ -28,7 +27,7 @@ def unsubscribe(token):
         db.session.commit()
         return jsonify({"message": "Вы успешно отписались от рассылки!"})
     except Exception as e:
-        print(e)
+        current_app.logger.exception(e)
         db.session.rollback()
         return jsonify({"error": "Произошла ошибка при отписке!"}), 500
 
@@ -47,7 +46,6 @@ def view_subscribers():
         }
         for sub in subs
     ]
-    print(sub_list)
 
     if not sub_list:
         return jsonify({"message": "Нет подписчиков!"}), 200
@@ -55,7 +53,6 @@ def view_subscribers():
     return jsonify(sub_list)
 
 
-@csrf.exempt
 @subscribers_bp.route("/api/subscribe", methods=["POST"])
 def subscription_post():
     data = request.get_json()

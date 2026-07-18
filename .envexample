@@ -1,7 +1,5 @@
 SECRET_KEY=
 app_password=
-MAX_TOKEN=
-USER_ID=
 
 FLASK_DEBUG=1
 FLASK_HOST=0.0.0.0

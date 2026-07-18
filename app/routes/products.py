@@ -22,6 +22,5 @@ def get_products():
         }
         for p in products
     ]
-    print(product_list)
 
     return jsonify(product_list), 200
