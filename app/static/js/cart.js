@@ -195,7 +195,6 @@ function initCart() {
         return response.json();
       })
       .then(addresses => {
-        console.log(addresses);
         pickupAddress.innerHTML = '<option value="" disabled>Выберите адрес</option>';
         addresses.forEach(address => {
           const option = new Option(address.address, address.id);
