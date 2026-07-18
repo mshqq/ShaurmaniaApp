@@ -12,7 +12,6 @@ subscribers_bp = Blueprint("subscribers", __name__)
 EMAIL_REGEX = compile(r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
 
 
-@csrf.exempt
 @subscribers_bp.route("/unsubscribe/<string:token>")
 def unsubscribe(token):
     sub = Subscriber.query.filter(Subscriber.unsubscribe_token == token).first()
@@ -54,7 +53,6 @@ def view_subscribers():
     return jsonify(sub_list)
 
 
-@csrf.exempt
 @subscribers_bp.route("/api/subscribe", methods=["POST"])
 def subscription_post():
     data = request.get_json()

@@ -105,7 +105,6 @@ def render_order(token):
     )
 
 
-@csrf.exempt
 @orders_bp.route("/api/order", methods=["POST"])
 def make_order():
     data = request.get_json()

@@ -7,10 +7,13 @@ document.addEventListener('order:submit', function (event) {
     submitButton.textContent = 'Отправка...';
   }
 
+  const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
   fetch('/api/order', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrfToken
     },
     body: JSON.stringify(order)
   })
