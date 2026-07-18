@@ -1,3 +1,5 @@
+import { getPhoneMask } from './phoneMask.js';
+
 function initCart() {
   const counter = document.querySelector('.nav__btn');
   const cards = document.querySelectorAll('.menu__card');
@@ -302,9 +304,12 @@ function initCart() {
       location_id = null;
     }
 
+    const phoneMask = getPhoneMask();
+    const rawPhone = phoneMask ? phoneMask.unmaskedValue : '';
+
     const order = {
       customer_name: formData.get('customerName'),
-      customer_phone: formData.get('customerPhone'),
+      customer_phone: rawPhone,
       delivery_type,
       location_id,
       delivery_address,
