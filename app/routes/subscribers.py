@@ -1,5 +1,5 @@
 from flask_login import login_required
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app
 from app.models import Subscriber
 from app.extensions import db, csrf
 from re import compile
@@ -28,7 +28,7 @@ def unsubscribe(token):
         db.session.commit()
         return jsonify({"message": "Вы успешно отписались от рассылки!"})
     except Exception as e:
-        print(e)
+        current_app.logger.exception(e)
         db.session.rollback()
         return jsonify({"error": "Произошла ошибка при отписке!"}), 500
 
@@ -47,7 +47,6 @@ def view_subscribers():
         }
         for sub in subs
     ]
-    print(sub_list)
 
     if not sub_list:
         return jsonify({"message": "Нет подписчиков!"}), 200

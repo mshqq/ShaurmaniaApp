@@ -16,15 +16,17 @@ def setStatus(app, id, status):
     with app.app_context():
         order = Order.query.filter(Order.id == id).first()
         if order is None:
-            print(f"Заказ с ID={id} не найден, статус {status} не установлен")
+            app.logger.info(f"Заказ с ID={id} не найден, статус {status} не установлен")
             return
         try:
-            print(f"Старый статус: {order.status} - Новый статус: {status}")
+            app.logger.info(
+                f"Заказ с ID={id} - старый статус: {order.status} - Новый статус: {status}"
+            )
             order.status = status
             db.session.commit()
         except Exception as e:
             db.session.rollback()
-            print(e)
+            app.logger.error(e)
 
 
 @csrf.exempt
@@ -111,7 +113,6 @@ def make_order():
     if not data:
         return jsonify({"error": "Некорректный JSON"}), 400
 
-    print(data)
     name = data.get("customer_name")
     phone = data.get("customer_phone")
     delivery_type = data.get("delivery_type")
@@ -221,7 +222,7 @@ def make_order():
         ), 201
 
     except Exception as e:
-        print(e)
+        current_app.logger.exception(e, exc_info=True)
         db.session.rollback()
         return jsonify({"error": "Ошибка создания заказа!"}), 500
 
