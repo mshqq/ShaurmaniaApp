@@ -5,7 +5,7 @@ const statuses = {
   done: [100, 3]
 };
 
-let orderURL = location.pathname.slice(7);
+const orderURL = location.pathname.split('/').pop();
 const targetURL = `/api/order/status/${orderURL}`;
 
 function setDone(icons, idx) {
@@ -24,15 +24,25 @@ function setActive(icons, idx) {
 }
 
 function changeStatus(status) {
-  progressBar = document.querySelector('.status-track-fill');
+  const progressBar = document.querySelector('.status-track-fill');
   progressBar.style.width = `${statuses[status][0]}%`;
-  console.log(`Поменяли ширину на ${statuses[status][0]}`);
-  console.log(`Готовы статусы до ${statuses[status][1]}`);
 
-  icons = document.querySelectorAll('.status-step');
+  const icons = document.querySelectorAll('.status-step');
   setDone(icons, statuses[status][1]);
   setActive(icons, statuses[status][1]);
-  console.log(icons);
+
+  const etaTime = document.querySelector('#etaTime');
+  const deliveryType = document.querySelector('.status-track').dataset.deliveryType;
+
+  switch (status) {
+    case 'pending':
+      etaTime.textContent = deliveryType === 'Самовывоз' ? 'Готов к выдаче' : 'В пути';
+      break;
+    case 'done':
+      etaTime.textContent = 'Завершен';
+      etaTime.classList.add('text-success');
+      break;
+  }
 }
 
 async function updateStatus() {
@@ -42,7 +52,6 @@ async function updateStatus() {
     const response = await fetch(targetURL);
     status = await response.json();
 
-    console.log(status);
     changeStatus(status.status);
 
     if (status.status !== 'done') {
@@ -52,9 +61,3 @@ async function updateStatus() {
 }
 
 updateStatus();
-
-// do {
-//   fetch(targetURL)
-//     .then(response => response.json())
-//     .then(data => console.log(data));
-// } while (data.status !== 'done');

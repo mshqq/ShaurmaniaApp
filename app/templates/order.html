@@ -29,7 +29,10 @@ header_button %}
       <span id="funText">Ваша шаурма уже крутится на вертеле!</span>
       <span>🔥</span>
     </div>
-    <div class="status-track">
+    <div
+      class="status-track"
+      data-delivery-type="{{ dType }}"
+    >
       <div
         class="status-track-fill"
         id="statusFill"
@@ -43,8 +46,13 @@ header_button %}
         <div class="status-label">Готовится</div>
       </div>
       <div class="status-step">
+        {% if dType == "Самовывоз" %}
+        <div class="status-icon">🏠</div>
+        <div class="status-label">Готов к выдаче</div>
+        {% else %}
         <div class="status-icon">🚗</div>
         <div class="status-label">В пути</div>
+        {% endif %}
       </div>
       <div class="status-step">
         <div class="status-icon">✅</div>
