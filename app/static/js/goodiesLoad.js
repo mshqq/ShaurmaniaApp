@@ -15,7 +15,7 @@ function initGoodies() {
         card.setAttribute('data-category', product.category);
 
         card.innerHTML = `
-              <img src="" alt="" class="menu__card-img" />
+              <img src="" alt="" class="menu__card-img" loading="lazy" />
               <div class="menu__card-info">
                 <p class="menu__card-title"></p>
                 <p class="menu__card-composition"></p>
