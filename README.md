@@ -59,8 +59,6 @@ pip install -r requirements.txt
 ```env
 SECRET_KEY=any-random-string
 app_password=your-gmail-app-password
-MAX_TOKEN=your-max-bot-token
-USER_ID=your-max-user-id
 
 FLASK_DEBUG=1
 FLASK_HOST=0.0.0.0
@@ -71,8 +69,6 @@ FLASK_PORT=5000
 |---|---|
 | `SECRET_KEY` | Секретный ключ Flask (обязательно) |
 | `app_password` | [Пароль приложения Gmail](https://myaccount.google.com/apppasswords) для отправки писем (опционально) |
-| `MAX_TOKEN` | Токен бота платформы MAX для уведомлений (опционально) |
-| `USER_ID` | ID пользователя MAX для рассылки (опционально) |
 | `FLASK_DEBUG` | Режим отладки (`1` — вкл., `0` — выкл.) |
 | `FLASK_HOST` | Хост сервера (по умолчанию `127.0.0.1`) |
 | `FLASK_PORT` | Порт сервера (по умолчанию `5000`) |
