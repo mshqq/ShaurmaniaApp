@@ -1,3 +1,4 @@
+from sqlalchemy.orm import joinedload
 from datetime import datetime, timedelta
 from flask import Blueprint, jsonify, request, current_app, render_template
 from flask_login import login_required
@@ -60,36 +61,35 @@ def get_order_info(token):
 @csrf.exempt
 @orders_bp.route("/order/<string:token>", methods=["GET"])
 def render_order(token):
-    order = Order.query.filter(Order.public_token == token).first()
+    order = (
+        Order.query.options(
+            joinedload(Order.locations),
+            joinedload(Order.items).joinedload(OrderItems.product),
+        )
+        .filter(Order.public_token == token)
+        .first()
+    )
     if order is None:
         return render_template("404.html")
-
-    location = Location.query.filter(Location.id == order.location_id).first()
 
     if order.delivery_type == "Доставка":
         dType = "Курьером"
     else:
         dType = order.delivery_type
 
-    if location:
-        address = location.address
+    if order.locations:
+        address = order.locations.address
     else:
         address = order.delivery_address
-
-    def get_product_name(product_id):
-        return Product.query.filter(Product.id == product_id).first().name
-
-    def get_product_price(product_id):
-        return Product.query.filter(Product.id == product_id).first().price
 
     order_items = [
         {
             "product_id": item.product_id,
-            "name": get_product_name(item.product_id),
-            "price": get_product_price(item.product_id),
+            "name": item.product.name,
+            "price": item.product.price,
             "quantity": item.quantity,
         }
-        for item in OrderItems.query.filter(OrderItems.order_id == order.id)
+        for item in order.items
     ]
 
     return render_template(
@@ -230,21 +230,20 @@ def make_order():
 @orders_bp.route("/api/orders", methods=["GET"])
 @login_required
 def get_orders():
-    orders = Order.query.all()
+    orders = Order.query.options(
+        joinedload(Order.locations),
+        joinedload(Order.items).joinedload(OrderItems.product),
+    ).all()
     orders_list = []
     for order in orders:
-        composition = OrderItems.query.filter(OrderItems.order_id == order.id).all()
-        composition_list = []
-
-        for item in composition:
-            product = Product.query.filter(Product.id == item.product_id).first()
-            composition_list.append(
-                {
-                    "name": product.name,
-                    "quantity": item.quantity,
-                    "subtotal": product.price * item.quantity,
-                }
-            )
+        composition_list = [
+            {
+                "name": item.product.name,
+                "quantity": item.quantity,
+                "subtotal": item.product.price * item.quantity,
+            }
+            for item in order.items
+        ]
 
         info = {
             "order_id": order.id,
@@ -257,9 +256,7 @@ def get_orders():
 
         if order.delivery_type == "Самовывоз":
             info["delivery_type"] = "Самовывоз"
-            info["location"] = (
-                Location.query.filter(Location.id == order.location_id).first().address
-            )
+            info["location"] = order.locations.address if order.locations else None
 
         if order.delivery_type == "Доставка":
             info["delivery_type"] = "Доставка"
