@@ -102,6 +102,7 @@ def render_order(token):
         orderItems=order_items,
         total=order.total_price,
         status=order.status,
+        created_at=to_local_time(order.created_at, fmt="%H:%M", minutes=2),
     )
 
 
