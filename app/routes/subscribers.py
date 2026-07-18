@@ -1,7 +1,7 @@
 from flask_login import login_required
 from flask import Blueprint, jsonify, request, current_app
 from app.models import Subscriber
-from app.extensions import db, csrf
+from app.extensions import db
 from re import compile
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
