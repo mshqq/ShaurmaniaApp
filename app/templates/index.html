@@ -144,7 +144,7 @@
           <div class="slide active">
             <img
               class="slider__img"
-              src="{{ url_for('static', filename='img/slider/1.png') }}"
+              src="{{ url_for('static', filename='img/slider/ico_0000_electric.png') }}"
               alt=""
             />
             <p class="slider__title">Готовим за 3 минуты</p>
@@ -152,7 +152,7 @@
           <div class="slide">
             <img
               class="slider__img"
-              src="{{ url_for('static', filename='img/slider/salad.png') }}"
+              src="{{ url_for('static', filename='img/slider/ico_0001_salad.png') }}"
               alt=""
             />
             <p class="slider__title">Свежие ингредиенты каждый день</p>
@@ -160,7 +160,7 @@
           <div class="slide">
             <img
               class="slider__img"
-              src="{{ url_for('static', filename='img/slider/pin.png') }}"
+              src="{{ url_for('static', filename='img/slider/ico_0002_pin.png') }}"
               alt=""
             />
             <p class="slider__title">13 точек по всей Чите</p>
@@ -168,7 +168,7 @@
           <div class="slide">
             <img
               class="slider__img"
-              src="{{ url_for('static', filename='img/slider/giftbox.png') }}"
+              src="{{ url_for('static', filename='img/slider/ico_0003_giftbox.png') }}"
               alt=""
             />
             <p class="slider__title">Скидка 10% на первый заказ</p>
@@ -314,7 +314,7 @@
             {% endfor %} {{ form.email(size=32, class="form-entry", placeholder="Email") }}
           </div>
 
-          <p>{{ form.submit(class="form-button") }}</p>
+          {{ form.submit(class="form-button") }}
         </form>
       </div>
     </div>
