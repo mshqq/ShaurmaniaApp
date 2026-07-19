@@ -35,9 +35,14 @@ function changeStatus(status) {
   const deliveryType = document.querySelector('.status-track').dataset.deliveryType;
 
   switch (status) {
-    case 'pending':
+    case 'pending': {
+      const etaLabel = document.querySelector('#etaLabel');
+      if (etaLabel) {
+        etaLabel.remove();
+      }
       etaTime.textContent = deliveryType === 'Самовывоз' ? 'Готов к выдаче' : 'В пути';
       break;
+    }
     case 'done':
       etaTime.textContent = 'Завершен';
       etaTime.classList.add('text-success');
