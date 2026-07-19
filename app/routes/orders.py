@@ -6,11 +6,13 @@ from app.extensions import db, csrf
 from app.utils import to_local_time
 from app.models import Order, OrderItems, Location, Product
 from apscheduler.schedulers.background import BackgroundScheduler
+from re import compile
 
 orders_bp = Blueprint("orders", __name__)
 scheduler = BackgroundScheduler()
 
 STATUS_DELAYS = [("cooking", 10), ("pending", 15), ("done", 20)]
+PHONE_REGEX = compile(r"^7\d{10}$")
 
 
 def setStatus(app, id, status):
@@ -139,6 +141,9 @@ def make_order():
 
     if not phone:
         return jsonify({"error": "Не введен номер телефона!"}), 400
+
+    if not PHONE_REGEX.match(phone):
+        return jsonify({"error": "Некорректный формат номера телефона!"}), 400
 
     if delivery_type not in ("Самовывоз", "Доставка"):
         return jsonify({"error": "Некорректный тип доставки!"}), 400
