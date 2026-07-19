@@ -1,6 +1,7 @@
 import { getPhoneMask } from './phoneMask.js';
 
 function initCart() {
+  const header = document.querySelector('header');
   const counter = document.querySelector('.nav__btn');
   const cards = document.querySelectorAll('.menu__card');
   const modal = document.querySelector('.modal');
@@ -217,6 +218,9 @@ function initCart() {
   function openModal() {
     renderModal();
     modal.style.display = 'grid';
+    if (header) {
+      header.style.display = 'none';
+    }
     document.body.classList.add('modal-open');
     requestAnimationFrame(() => modal.classList.add('active'));
   }
@@ -226,6 +230,9 @@ function initCart() {
     document.body.classList.remove('modal-open');
     setTimeout(() => {
       modal.style.display = 'none';
+      if (header) {
+        header.style.display = 'block';
+      }
     }, 300);
   }
 
